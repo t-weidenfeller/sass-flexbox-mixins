@@ -1,0 +1,134 @@
+// SCSS Flex Mixins
+// A collection of useful SCSS mixins for flexbox layouts
+
+@use "sass:map";
+
+// Configuration maps for consistent values
+$map-direction: (
+  "row": row,
+  "row-reverse": row-reverse,
+  "column": column,
+  "column-reverse": column-reverse,
+);
+
+$map-alignment-horizontal: (
+  "start": flex-start,
+  "center": center,
+  "end": flex-end,
+  "space-around": space-around,
+  "space-between": space-between,
+  "space-evenly": space-evenly,
+);
+
+$map-alignment-vertical: (
+  "start": flex-start,
+  "center": center,
+  "end": flex-end,
+  "stretch": stretch,
+  "baseline": baseline,
+);
+
+$map-wrap: (
+  "nowrap": nowrap,
+  "wrap": wrap,
+  "wrap-reverse": wrap-reverse,
+);
+
+$map-align-content: (
+  "start": flex-start,
+  "center": center,
+  "end": flex-end,
+  "stretch": stretch,
+  "space-around": space-around,
+  "space-between": space-between,
+  "space-evenly": space-evenly,
+);
+
+$map-align-self-values: (
+  "auto": auto,
+  "start": flex-start,
+  "center": center,
+  "end": flex-end,
+  "stretch": stretch,
+  "baseline": baseline,
+);
+
+// Comprehensive flex mixin supporting all flex layout attributes
+@mixin flex(
+  $direction: "row",
+  $justify-content: "start",
+  $align-items: "stretch",
+  $align-content: null,
+  $wrap: "nowrap",
+  $gap: null,
+  $row-gap: null,
+  $column-gap: null
+) {
+  display: flex;
+
+  // Direction and wrapping
+  flex-direction: map.get($map-direction, $direction);
+  flex-wrap: map.get($map-wrap, $wrap);
+
+  // Main axis alignment (justify-content)
+  justify-content: map.get($map-alignment-horizontal, $justify-content);
+
+  // Cross axis alignment (align-items)
+  align-items: map.get($map-alignment-vertical, $align-items);
+
+  // Multi-line alignment (align-content) - only if wrap is enabled
+  @if $align-content {
+    align-content: map.get($map-align-content, $align-content);
+  }
+
+  // Gap properties
+  @if $gap {
+    gap: $gap;
+  }
+
+  @if $row-gap {
+    row-gap: $row-gap;
+  }
+
+  @if $column-gap {
+    column-gap: $column-gap;
+  }
+}
+
+// Flex item mixin supporting all flex item properties
+@mixin flex-item(
+  $grow: null,
+  $shrink: null,
+  $basis: null,
+  $align-self: null,
+  $order: null
+) {
+  @if $grow != null {
+    flex-grow: $grow;
+  }
+
+  @if $shrink != null {
+    flex-shrink: $shrink;
+  }
+
+  @if $basis != null {
+    flex-basis: $basis;
+  }
+
+  @if $align-self {
+    align-self: map.get($map-align-self-values, $align-self);
+  }
+
+  @if $order != null {
+    order: $order;
+  }
+}
+
+// Column and row shortcuts using the map-based approach
+@mixin flex-column($justify-content: "center", $align-items: "stretch") {
+  @include flex("column", "nowrap", $justify-content, $align-items);
+}
+
+@mixin flex-row($justify-content: "start", $align-items: "stretch") {
+  @include flex("row", "nowrap", $justify-content, $align-items);
+}

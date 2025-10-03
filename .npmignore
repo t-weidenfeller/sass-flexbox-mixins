@@ -1,0 +1,32 @@
+# NPM Package ignore file
+
+# Development files
+docs/
+PROJECT-STRUCTURE.md
+SETUP-GUIDE.md
+
+# Build artifacts
+*.css.map
+*.css
+
+# Development dependencies
+node_modules/
+.sass-cache/
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git files
+.git/
+.gitignore
+
+# Log files
+*.log
+npm-debug.log*
