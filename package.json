@@ -1,6 +1,6 @@
 {
   "name": "sass-flexbox-mixins",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A collection of useful SCSS mixins for flexbox layouts",
   "main": "index.scss",
   "files": [
