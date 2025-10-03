@@ -1,6 +1,6 @@
 # SCSS Flexbox Mixins
 
-A comprehensive collection of SCSS mixins for flexbox layouts that makes styling flexible layouts quick and easy.
+A modern collection of SCSS mixins for flexbox layouts with a clean, map-based API that makes styling flexible layouts quick and intuitive.
 
 ## Installation
 
@@ -24,232 +24,193 @@ Or if you're using older SCSS syntax:
 
 ## Available Mixins
 
-### Basic Flexbox
+### 🎯 `@mixin flex()` - Complete Flex Container
 
-#### `@mixin flex($direction, $wrap)`
-Sets up basic flexbox with optional direction and wrap.
+The main mixin supporting all flex container properties with string-based values for better readability.
 
 ```scss
-.container {
-  @include flex(row, wrap);
-}
+@mixin flex(
+  $direction: "row",
+  $wrap: "nowrap", 
+  $justify-content: "start",
+  $align-items: "stretch",
+  $align-content: null,
+  $gap: null,
+  $row-gap: null,
+  $column-gap: null
+)
 ```
 
-### Alignment Mixins
+#### Parameters:
+- **`$direction`**: `"row"` | `"row-reverse"` | `"column"` | `"column-reverse"`
+- **`$wrap`**: `"nowrap"` | `"wrap"` | `"wrap-reverse"`
+- **`$justify-content`**: `"start"` | `"center"` | `"end"` | `"space-between"` | `"space-around"` | `"space-evenly"`
+- **`$align-items`**: `"start"` | `"center"` | `"end"` | `"stretch"` | `"baseline"`
+- **`$align-content`**: `"start"` | `"center"` | `"end"` | `"stretch"` | `"space-between"` | `"space-around"` | `"space-evenly"`
+- **`$gap`**, **`$row-gap`**, **`$column-gap`**: Any CSS length value
 
-#### `@mixin flex-center`
-Centers content both horizontally and vertically.
+### 🎯 `@mixin flex-item()` - Complete Flex Item Control
+
+Controls all flex item properties.
 
 ```scss
-.hero {
-  @include flex-center;
-}
+@mixin flex-item(
+  $grow: null,
+  $shrink: null,
+  $basis: null,
+  $align-self: null,
+  $order: null
+)
 ```
 
-#### `@mixin flex-center-vertical`
-Centers content vertically only.
+#### Parameters:
+- **`$grow`**: Number (flex-grow value)
+- **`$shrink`**: Number (flex-shrink value)
+- **`$basis`**: CSS length or `auto`
+- **`$align-self`**: `"auto"` | `"start"` | `"center"` | `"end"` | `"stretch"` | `"baseline"`
+- **`$order`**: Number (visual order)
+
+### 🎯 `@mixin flex-row()` - Row Shortcut
+
+Quick setup for row layouts.
 
 ```scss
-.sidebar {
-  @include flex-center-vertical;
-}
+@mixin flex-row($justify-content: "start", $align-items: "stretch")
 ```
 
-#### `@mixin flex-center-horizontal`
-Centers content horizontally only.
+### 🎯 `@mixin flex-column()` - Column Shortcut
+
+Quick setup for column layouts.
 
 ```scss
-.header {
-  @include flex-center-horizontal;
-}
-```
-
-#### `@mixin flex-between`
-Distributes items with space between them.
-
-```scss
-.navbar {
-  @include flex-between;
-}
-```
-
-#### `@mixin flex-around`
-Distributes items with space around them.
-
-```scss
-.gallery {
-  @include flex-around;
-}
-```
-
-#### `@mixin flex-evenly`
-Distributes items with equal space around them.
-
-```scss
-.footer-links {
-  @include flex-evenly;
-}
-```
-
-### Flex Item Utilities
-
-#### `@mixin flex-item($grow, $shrink, $basis)`
-Sets flex grow, shrink, and basis properties.
-
-```scss
-.main-content {
-  @include flex-item(1, 1, 0);
-}
-```
-
-#### `@mixin flex-grow($value)`
-Sets flex-grow property.
-
-```scss
-.expanding-section {
-  @include flex-grow(2);
-}
-```
-
-#### `@mixin flex-shrink($value)`
-Sets flex-shrink property.
-
-```scss
-.fixed-sidebar {
-  @include flex-shrink(0);
-}
-```
-
-#### `@mixin flex-basis($value)`
-Sets flex-basis property.
-
-```scss
-.column {
-  @include flex-basis(300px);
-}
-```
-
-### Layout Mixins
-
-#### `@mixin flex-column($align, $justify)`
-Creates a flex column layout.
-
-```scss
-.sidebar {
-  @include flex-column(center, flex-start);
-}
-```
-
-#### `@mixin flex-row($align, $justify)`
-Creates a flex row layout.
-
-```scss
-.header {
-  @include flex-row(center, space-between);
-}
-```
-
-### Responsive Utilities
-
-#### `@mixin flex-responsive($mobile-direction, $desktop-direction, $breakpoint)`
-Creates responsive flex layouts.
-
-```scss
-.responsive-container {
-  @include flex-responsive(column, row, 768px);
-}
-```
-
-### Advanced Utilities
-
-#### `@mixin flex-gap($gap)`
-Adds gap between flex items with fallback for older browsers.
-
-```scss
-.card-grid {
-  @include flex-gap(1rem);
-}
-```
-
-#### `@mixin flex-order($order)`
-Sets the order of a flex item.
-
-```scss
-.last-item {
-  @include flex-order(-1); // Makes it appear first
-}
-```
-
-#### `@mixin flex-align($align-items, $align-content, $justify-content)`
-Advanced alignment control.
-
-```scss
-.complex-layout {
-  @include flex-align(center, space-between, flex-end);
-}
-```
-
-#### `@mixin align-self($value)`
-Aligns individual flex items.
-
-```scss
-.special-item {
-  @include align-self(flex-end);
-}
+@mixin flex-column($justify-content: "center", $align-items: "stretch")
 ```
 
 ## Examples
 
-### Navigation Bar
+### Basic Usage
+
 ```scss
+// Simple centered container
+.hero {
+  @include flex.flex("row", "nowrap", "center", "center");
+}
+
+// Column layout
+.sidebar {
+  @include flex.flex-column();
+}
+
+// Row with space between
 .navbar {
-  @include flex-between;
-  padding: 1rem;
+  @include flex.flex-row("space-between", "center");
+}
+```
+
+### Advanced Layouts
+
+```scss
+// Grid-like layout with gaps
+.card-grid {
+  @include flex.flex(
+    $direction: "row",
+    $wrap: "wrap", 
+    $justify-content: "start",
+    $align-items: "stretch",
+    $gap: 1rem
+  );
+  
+  .card {
+    @include flex.flex-item(
+      $grow: 1,
+      $basis: 300px
+    );
+  }
+}
+
+// Responsive navigation
+.navbar {
+  @include flex.flex-row("space-between", "center");
   
   .logo {
-    @include flex-shrink(0);
+    @include flex.flex-item($shrink: 0);
   }
   
   .nav-links {
-    @include flex(row, nowrap);
-    @include flex-gap(2rem);
+    @include flex.flex(
+      $direction: "row",
+      $gap: 2rem
+    );
   }
-}
-```
-
-### Card Layout
-```scss
-.card-container {
-  @include flex(row, wrap);
-  @include flex-gap(1rem);
   
-  .card {
-    @include flex-basis(300px);
-    @include flex-grow(1);
+  .user-menu {
+    @include flex.flex-item($shrink: 0);
   }
 }
-```
 
-### Responsive Sidebar Layout
-```scss
-.layout {
-  @include flex-responsive(column, row, 768px);
+// Sidebar layout
+.app-layout {
+  @include flex.flex-row();
   min-height: 100vh;
   
   .sidebar {
-    @include flex-basis(250px);
-    @include flex-shrink(0);
+    @include flex.flex-column();
+    @include flex.flex-item(
+      $basis: 250px,
+      $shrink: 0
+    );
   }
   
   .main-content {
-    @include flex-grow(1);
+    @include flex.flex-item($grow: 1);
   }
 }
 ```
 
+### Real-World Components
+
+```scss
+// Card component
+.card {
+  @include flex.flex-column("space-between");
+  
+  .card-header {
+    @include flex.flex-row("space-between", "center");
+  }
+  
+  .card-content {
+    @include flex.flex-item($grow: 1);
+  }
+  
+  .card-footer {
+    @include flex.flex-row("end", "center");
+    @include flex.flex-item($shrink: 0);
+  }
+}
+
+// Modal dialog
+.modal {
+  @include flex.flex("row", "nowrap", "center", "center");
+  
+  .modal-content {
+    @include flex.flex-column();
+    @include flex.flex-item($basis: 500px);
+  }
+}
+```
+
+## Key Features
+
+✅ **String-based API** - Use intuitive strings like `"center"` instead of `flex-start`  
+✅ **Smart defaults** - Sensible defaults for common use cases  
+✅ **Complete coverage** - All flexbox properties supported  
+✅ **Modern SCSS** - Uses `@use` and Sass maps for consistency  
+✅ **Zero dependencies** - Pure SCSS, no external dependencies  
+✅ **TypeScript-friendly** - Clear parameter types and values  
+
 ## Browser Support
 
-This package supports all modern browsers that support flexbox:
+Supports all modern browsers with flexbox support:
 - Chrome 29+
 - Firefox 28+
 - Safari 9+
